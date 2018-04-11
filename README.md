@@ -24,6 +24,7 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   name: {
+  	type: String,
     fake: {
       generator: 'name',
       type: 'firstName'
