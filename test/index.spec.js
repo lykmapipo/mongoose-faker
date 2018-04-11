@@ -166,4 +166,34 @@ describe('fake plugin', function () {
 
   });
 
+
+  it(
+    'should be able to update only specified field(s) of model instance',
+    function () {
+
+      const user = User.fake();
+      const zipCode = user.zipCode;
+
+      user.fakeOnly('zipCode');
+
+      expect(user.zipCode).to.exist;
+      expect(user.zipCode).to.not.be.equal(zipCode);
+
+    });
+
+
+  it(
+    'should be able to update model instance except specified field(s)',
+    function () {
+
+      const user = User.fake();
+      const zipCode = user.zipCode;
+
+      user.fakeExcept('zipCode');
+
+      expect(user.zipCode).to.exist;
+      expect(user.zipCode).to.be.equal(zipCode);
+
+    });
+
 });

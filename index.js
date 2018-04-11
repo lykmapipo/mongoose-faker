@@ -88,6 +88,57 @@ module.exports = exports = function mongooseFaker(schema, optns) {
   });
 
 
+  const fakeData = function (
+    size = 1, locale = 'en',
+    only = undefined, except = undefined
+  ) {
+
+    let model = {};
+    const _only = only ? [].concat(only) : undefined;
+    const _except = except ? [].concat(except) : undefined;
+
+    //only
+    let _fakeables = _.merge({}, fakeables);
+    if (_only) {
+      _fakeables = _.merge({}, _.pick(fakeables, _only));
+    }
+
+    //except
+    if (_except) {
+      _fakeables = _.merge({}, _.omit(fakeables, _except));
+    }
+
+    _.forEach(_fakeables, function (optns, path) {
+
+      //obtain default value
+      const defaultValue = _.get(optns, 'default');
+      let value = defaultValue;
+
+      //obtain fake value
+      if (!defaultValue) {
+        const fakeOptns = _.merge({}, FIELD_DEFAULTS, optns.fake);
+        const generator = (fakeOptns.generator || DEFAULT_GENERATOR);
+        const type = (fakeOptns.type || DEFAULT_TYPE);
+
+        //generate value
+        //TODO pass arguments
+        const _locale =
+          (locale || options.locale || DEFAULT_LOCALE);
+        faker.locale =
+          (_.has(LOCALES, _locale) ? _locale : DEFAULT_LOCALE);
+        value = _.get(faker, [generator, type]);
+        value = _.isFunction(value) ? value() : undefined;
+      }
+
+      _.set(model, path, value);
+
+    });
+
+    return model;
+
+  };
+
+
   /**
    * @name fake
    * @description generate fake model data
@@ -103,58 +154,10 @@ module.exports = exports = function mongooseFaker(schema, optns) {
     only = undefined, except = undefined
   ) {
 
-    //iterate over fakeable fields and build fake model
-    const fakeData = function () {
-
-      let model = {};
-      const _only = only ? [].concat(only) : undefined;
-      const _except = except ? [].concat(except) : undefined;
-
-      //only
-      let _fakeables = _.merge({}, fakeables);
-      if (_only) {
-        _fakeables = _.merge({}, _.pick(fakeables, _only));
-      }
-
-      //except
-      if (_except) {
-        _fakeables = _.merge({}, _.omit(fakeables, _except));
-      }
-
-      _.forEach(_fakeables, function (optns, path) {
-
-        //obtain default value
-        const defaultValue = _.get(optns, 'default');
-        let value = defaultValue;
-
-        //obtain fake value
-        if (!defaultValue) {
-          const fakeOptns = _.merge({}, FIELD_DEFAULTS, optns.fake);
-          const generator = (fakeOptns.generator || DEFAULT_GENERATOR);
-          const type = (fakeOptns.type || DEFAULT_TYPE);
-
-          //generate value
-          //TODO pass arguments
-          const _locale =
-            (locale || options.locale || DEFAULT_LOCALE);
-          faker.locale =
-            (_.has(LOCALES, _locale) ? _locale : DEFAULT_LOCALE);
-          value = _.get(faker, [generator, type]);
-          value = _.isFunction(value) ? value() : undefined;
-        }
-
-        _.set(model, path, value);
-
-      });
-
-      return model;
-
-    };
-
     //fake models
     const _size = (_.isNumber(size) && size > 0 ? size : 1);
     const models = _.map(_.range(_size), function () {
-      return new this(fakeData());
+      return new this(fakeData(size, locale, only, except));
     }.bind(this));
 
     //return
@@ -190,7 +193,7 @@ module.exports = exports = function mongooseFaker(schema, optns) {
 
   /**
    * @name fakeExcept
-   * @description generate fake model data with only specified fields
+   * @description generate fake model data with specified fields exluded
    * @param  {Number} [size] size of faked model
    * @param  {String} [locale] faker locale to be used       
    * @param  {String[]} [fields] fields to exclude       
@@ -211,6 +214,56 @@ module.exports = exports = function mongooseFaker(schema, optns) {
       return models;
 
     };
+
+
+  /**
+   * @name fakeOnly
+   * @description generate fake model data with only specified fields
+   *              and update model instance
+   * @param  {String[]} [fields] fields to only update       
+   * @return {Object} fake model instance
+   * @private
+   */
+  schema.methods.fakeOnly = function instanceFakeOnly(...fields) {
+
+    //prepare fields
+    const only =
+      _.compact([].concat(...fields));
+
+    //generate data
+    const data = fakeData(1, undefined, only, undefined);
+
+    //update model instance
+    this.set(data);
+
+    return this;
+
+  };
+
+
+  /**
+   * @name fakeExcept
+   * @description generate fake model data with specified fields excluded
+   *              and update model instance
+   * @param  {String[]} [fields] fields to exclude on update       
+   * @return {Object} fake model instance
+   * @private
+   */
+  schema.methods.fakeExcept = function instanceFakeExcept(...fields) {
+
+    //prepare fields
+    const except =
+      _.compact([].concat(...fields));
+
+    //generate data
+    const data = fakeData(1, undefined, undefined, except);
+
+    //update model instance
+    this.set(data);
+
+    return this;
+
+  };
 
 
 };

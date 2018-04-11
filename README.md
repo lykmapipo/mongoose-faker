@@ -74,6 +74,32 @@ const user = User.fakeExpect('name', 'age');
 const users = User.fakeExpect(4, 'name', 'age');
 ```
 
+### Instance
+
+#### `model.fakeOnly(...fields): model`
+Return updated fake model instance with only specified fields updated
+
+Example:
+```js
+
+....
+
+const user = user.fakeOnly('name');
+const user = user.fakeOnly('name', 'age');
+```
+
+#### `model.fakeExcept(...fields): model`
+Return updated fake model instance with specified fields not updated
+
+Example:
+```js
+
+...
+
+const user = user.fakeExpect('name', 'age');
+const users = user.fakeExpect('name', 'age');
+```
+
 
 
 ## Testing
