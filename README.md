@@ -1,8 +1,8 @@
 # mongoose-faker
 
 [![Build Status](https://travis-ci.org/lykmapipo/mongoose-faker.svg?branch=master)](https://travis-ci.org/lykmapipo/mongoose-faker)
-[![Dependency Status](https://img.shields.io/david/lykmapipo/mongoose-faker.svg?style=flat)](https://david-dm.org/lykmapipo/mongoose-faker)
-[![npm version](https://badge.fury.io/js/%40lykmapipo%2Fmongoose-faker.svg)](https://badge.fury.io/js/@lykmapipo/mongoose-faker)
+[![Dependencies Status](https://david-dm.org/lykmapipo/mongoose-faker/status.svg)](https://david-dm.org/lykmapipo/mongoose-faker)
+[![npm version](https://badge.fury.io/js/%40lykmapipo%2Fmongoose-faker.svg)](https://badge.fury.io/js/%40lykmapipo%2Fmongoose-faker)
 
 mongoose plugin to generate fake model data
 
