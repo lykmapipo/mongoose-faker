@@ -80,7 +80,6 @@ describe('fake plugin', function () {
       });
     });
 
-
   });
 
 });

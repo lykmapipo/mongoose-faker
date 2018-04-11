@@ -80,8 +80,6 @@ module.exports = exports = function mongooseFaker(schema, optns) {
     collectFakablePaths(pathName, schemaType);
   });
 
-  //expose fakable fields as schema statics
-  schema.statics.FAKABLE_FIELDS = _.compact(fakables);
 
   /**
    * @name fake
