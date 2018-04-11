@@ -17,7 +17,7 @@ $ npm install --save @lykmapipo/mongoose-faker
 
 ## Usage
 
-```javascript
+```js
 const mongoose = require('mongoose');
 mongoose.plugin(require('mongoose-faker'));
 const Schema = mongoose.Schema;
@@ -32,7 +32,7 @@ const UserSchema = new Schema({
   }
 
 });
-cost User = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema);
 
 ...
 
@@ -42,6 +42,38 @@ const users = User.fake(50);
 ...
 
 ```
+
+## API
+
+### Static
+
+#### `Model.fake(size, locale): model|model[]`
+Return fake model(s) instance base of specified `size` and `locale`
+
+Example:
+```js
+const user = User.fake();
+const users = User.fake(4);
+```
+
+#### `Model.fakeOnly(...fields): model|model[]`
+Return a fake model(s) instance with only specified fields
+
+Example:
+```js
+const user = User.fakeOnly('name', 'age');
+const users = User.fakeOnly(4, 'name');
+```
+
+#### `Model.fakeExcept(...fields): model|model[]`
+Return fake model(s) instance without specified fields
+
+Example:
+```js
+const user = User.fakeExpect('name', 'age');
+const users = User.fakeExpect(4, 'name', 'age');
+```
+
 
 
 ## Testing

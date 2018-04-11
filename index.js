@@ -23,7 +23,14 @@ const faker = require('faker');
 
 
 /*** local constants */
-const FIELD_DEFAULTS = { generator: 'name', type: 'findName' };
+const LOCALES = _.keys(faker.locales);
+const DEFAULT_LOCALE = 'en';
+const DEFAULT_GENERATOR = 'name';
+const DEFAULT_TYPE = 'findName';
+const FIELD_DEFAULTS = {
+  generator: DEFAULT_GENERATOR,
+  type: DEFAULT_TYPE
+};
 
 
 module.exports = exports = function mongooseFaker(schema, optns) {
@@ -31,12 +38,12 @@ module.exports = exports = function mongooseFaker(schema, optns) {
   //merge options
   const options = _.merge({}, optns);
 
-  //collect fakable fields
-  let fakables = {};
+  //collect fakeable fields
+  let fakeables = {};
 
   /**
-   * @name  collectFakablePath
-   * @description iterate recursively on schema paths and collect fakable
+   * @name  collectFakeablePath
+   * @description iterate recursively on schema paths and collect fakeable
    *              paths only
    * @param  {String} pathName   [description]
    * @param  {SchemaType} schemaType [description]
@@ -45,7 +52,7 @@ module.exports = exports = function mongooseFaker(schema, optns) {
    * @version 0.1.0
    * @private
    */
-  function collectFakablePaths(pathName, schemaType, parentPath) {
+  function collectFakeablePaths(pathName, schemaType, parentPath) {
 
     //TODO handle refs(ObjectId) schema type
 
@@ -58,26 +65,26 @@ module.exports = exports = function mongooseFaker(schema, optns) {
       _.isFunction(schemaType.schema.eachPath);
     if (isSchema) {
       schemaType.schema.eachPath(function (_pathName, _schemaType) {
-        collectFakablePaths(_pathName, _schemaType, pathName);
+        collectFakeablePaths(_pathName, _schemaType, pathName);
       });
     }
 
-    //check if schematype is fakable
-    const isFakable = _.get(schemaType.options, 'fake');
+    //check if schematype is fakeable
+    const isFakeable = _.get(schemaType.options, 'fake');
 
-    //collect fakable fields
-    if (isFakable) {
+    //collect fakeable fields
+    if (isFakeable) {
 
-      //collect fakable fields
-      fakables[pathName] = schemaType.options;
+      //collect fakeable fields
+      fakeables[pathName] = schemaType.options;
 
     }
 
   }
 
-  //collect fakable path
+  //collect fakeable path
   schema.eachPath(function (pathName, schemaType) {
-    collectFakablePaths(pathName, schemaType);
+    collectFakeablePaths(pathName, schemaType);
   });
 
 
@@ -86,17 +93,35 @@ module.exports = exports = function mongooseFaker(schema, optns) {
    * @description generate fake model data
    * @param  {Number} [size] size of faked model
    * @param  {String} [locale] faker locale to be used       
-   * @return {Query|Object[]} fake model(s)
+   * @param  {String[]} [only] allowed fields to generate fake value       
+   * @param  {String[]} [except] exclued fields to generate fake value       
+   * @return {Object|Object[]} fake model(s)
    * @public
    */
-  schema.statics.fake = function fake(size = 1, locale = 'en') {
+  schema.statics.fake = function fake(
+    size = 1, locale = 'en',
+    only = undefined, except = undefined
+  ) {
 
-    //iterate over fakable fields and build fake model
+    //iterate over fakeable fields and build fake model
     const fakeData = function () {
 
-      const model = {};
+      let model = {};
+      const _only = only ? [].concat(only) : undefined;
+      const _except = except ? [].concat(except) : undefined;
 
-      _.forEach(fakables, function (optns, path) {
+      //only
+      let _fakeables = _.merge({}, fakeables);
+      if (_only) {
+        _fakeables = _.merge({}, _.pick(fakeables, _only));
+      }
+
+      //except
+      if (_except) {
+        _fakeables = _.merge({}, _.omit(fakeables, _except));
+      }
+
+      _.forEach(_fakeables, function (optns, path) {
 
         //obtain default value
         const defaultValue = _.get(optns, 'default');
@@ -105,12 +130,15 @@ module.exports = exports = function mongooseFaker(schema, optns) {
         //obtain fake value
         if (!defaultValue) {
           const fakeOptns = _.merge({}, FIELD_DEFAULTS, optns.fake);
-          const generator = (fakeOptns.generator || 'name');
-          const type = (fakeOptns.type || 'findName');
+          const generator = (fakeOptns.generator || DEFAULT_GENERATOR);
+          const type = (fakeOptns.type || DEFAULT_TYPE);
 
           //generate value
           //TODO pass arguments
-          faker.locale = (locale || options.locale || 'en');
+          const _locale =
+            (locale || options.locale || DEFAULT_LOCALE);
+          faker.locale =
+            (_.has(LOCALES, _locale) ? _locale : DEFAULT_LOCALE);
           value = _.get(faker, [generator, type]);
           value = _.isFunction(value) ? value() : undefined;
         }
@@ -124,13 +152,65 @@ module.exports = exports = function mongooseFaker(schema, optns) {
     };
 
     //fake models
-    const models = _.map(_.range((size || 1)), function () {
-      return fakeData();
-    });
+    const _size = (_.isNumber(size) && size > 0 ? size : 1);
+    const models = _.map(_.range(_size), function () {
+      return new this(fakeData());
+    }.bind(this));
 
     //return
     return size > 1 ? models : _.first(models);
 
   };
+
+
+  /**
+   * @name fakeOnly
+   * @description generate fake model data with only specified fields
+   * @param  {Number} [size] size of faked model
+   * @param  {String} [locale] faker locale to be used       
+   * @param  {String[]} [fields] fields to only include       
+   * @return {Object|Object[]} fake model(s)
+   * @public
+   */
+  schema.statics.fakeOnly =
+    function fakeOnly(size, locale, ...fields) {
+
+      //prepare fields
+      const only =
+        _.compact([].concat(size).concat(locale).concat(...fields));
+
+      //build fake model instances
+      const models = this.fake(only[0], only[1], only, undefined);
+
+      //return 
+      return models;
+
+    };
+
+
+  /**
+   * @name fakeExcept
+   * @description generate fake model data with only specified fields
+   * @param  {Number} [size] size of faked model
+   * @param  {String} [locale] faker locale to be used       
+   * @param  {String[]} [fields] fields to exclude       
+   * @return {Object|Object[]} fake model(s)
+   * @public
+   */
+  schema.statics.fakeExcept =
+    function fakeExcept(size, locale, ...fields) {
+
+      //prepare fields
+      const except =
+        _.compact([].concat(size).concat(locale).concat(...fields));
+
+      //build fake model instances
+      const models = this.fake(except[0], except[1], undefined, except);
+
+      //return 
+      return models;
+
+    };
+
 
 };

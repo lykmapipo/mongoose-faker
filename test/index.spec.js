@@ -54,6 +54,7 @@ describe('fake plugin', function () {
   it('should be able to generate fake model', function () {
 
     const user = User.fake();
+    expect(user._id).to.exist;
 
     //assert fields
     _.forEach(generators, function (generator) {
@@ -73,11 +74,94 @@ describe('fake plugin', function () {
 
     //assert fields
     _.forEach(users, function (user) {
+      expect(user._id).to.exist;
+
       _.forEach(generators, function (generator) {
         _.forEach(_.keys(faker[generator]), function (type) {
           expect(user[type]).to.exist;
         });
       });
+
+    });
+
+  });
+
+  it('should be able to generate only specified fields', function () {
+
+    const user = User.fakeOnly('zipCode');
+    expect(user._id).to.exist;
+    expect(user.zipCode).to.exist;
+
+    _.forEach(generators, function (generator) {
+      const types =
+        _.without(_.keys(faker[generator]), 'zipCode');
+      _.forEach(types, function (type) {
+        expect(user[type]).to.not.exist;
+      });
+    });
+
+  });
+
+  it('should be able to generate only specified fields', function () {
+
+    const users = User.fakeOnly(2, 'zipCode');
+
+    //assert size
+    expect(users).to.have.length(2);
+
+    //assert fields
+    _.forEach(users, function (user) {
+      expect(user._id).to.exist;
+      expect(user.zipCode).to.exist;
+
+      _.forEach(generators, function (generator) {
+        const types =
+          _.without(_.keys(faker[generator]), 'zipCode');
+        _.forEach(types, function (type) {
+          expect(user[type]).to.not.exist;
+        });
+      });
+
+    });
+
+  });
+
+  it('should be able to generate except specified fields', function () {
+
+    const user = User.fakeExcept('zipCode');
+    expect(user._id).to.exist;
+    expect(user.zipCode).to.not.exist;
+
+    _.forEach(generators, function (generator) {
+      const types =
+        _.without(_.keys(faker[generator]), 'zipCode');
+      _.forEach(types, function (type) {
+        expect(user[type]).to.exist;
+      });
+    });
+
+  });
+
+  it('should be able to generate except specified fields', function () {
+
+    const users = User.fakeExcept(2, 'zipCode');
+
+    //assert size
+    expect(users).to.have.length(2);
+
+    //assert fields
+    _.forEach(users, function (user) {
+      expect(user._id).to.exist;
+      expect(user.zipCode).to.not.exist;
+
+      _.forEach(generators, function (generator) {
+        const types =
+          _.without(_.keys(faker[generator]), 'zipCode');
+        _.forEach(types, function (type) {
+          expect(user[type]).to.exist;
+        });
+      });
+
     });
 
   });
