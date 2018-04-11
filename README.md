@@ -24,7 +24,7 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   name: {
-  	type: String,
+    type: String,
     fake: {
       generator: 'name',
       type: 'firstName'
@@ -38,6 +38,9 @@ cost User = mongoose.model('User', UserSchema);
 
 const user = User.fake();
 const users = User.fake(50);
+
+...
+
 ```
 
 
