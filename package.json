@@ -42,12 +42,13 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
-    "mocha": "^5.0.5"
+    "mocha": "^5.1.0"
   },
   "dependencies": {
+    "@turf/random": "^6.0.2",
     "faker": "^4.1.0",
     "get-parameter-names": "^0.3.0",
     "lodash": "^4.17.5",
-    "mongoose": "^5.0.14"
+    "mongoose": "^5.0.15"
   }
 }
