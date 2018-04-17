@@ -28,7 +28,7 @@ const generators = [
   'name',
   'phone',
   'random',
-  'systme'
+  'system'
 ];
 const fields = {};
 

@@ -33,6 +33,99 @@ const FIELD_DEFAULTS = {
 };
 
 
+/**
+ * @name transform
+ * @function transform
+ * @description transform a value based on mongoose schema type options
+ * @param  {Mixed} value a value to be transformed
+ * @param  {Object} schemaTypeOptions valid schematype options
+ * @see {@link http://mongoosejs.com/docs/schematypes.html#schematype-options}
+ * @return {Mixed} a transformed
+ * @author lally elias <lallyelias87@mail.com>
+ * @since  0.2.0
+ * @version 0.1.0
+ */
+function transform(value, schemaTypeOptions) {
+
+  //ensure schema type options
+  const options = _.merge({}, schemaTypeOptions);
+
+  if (value && _.keys(options).length > 0) {
+    //trim
+    if (options.trim) {
+      value = _.trim(value);
+    }
+
+    //lowercase
+    if (options.lowercase) {
+      value = _.toLower(value);
+    }
+
+    //uppercase
+    if (options.uppercase) {
+      value = _.toUpper(value);
+    }
+  }
+
+  return value;
+
+}
+
+
+/**
+ * @name generate
+ * @function generate
+ * @description generate a path value based on mongoose
+ *              schema type options
+ * @param  {Mixed} value a value to be transformed
+ * @param  {Object} schemaOptions valid schematype options
+ * @see {@link http://mongoosejs.com/docs/schematypes.html#schematype-options}
+ * @return {Mixed} a transformed
+ * @author lally elias <lallyelias87@mail.com>
+ * @since  0.2.0
+ * @version 0.1.0
+ */
+function generate(schemaTypeOptions) {
+
+  //ensure schema type options
+  const options = _.merge({}, schemaTypeOptions);
+
+  //obtain default value
+  let value = _.get(options, 'default', undefined);
+
+  //...obtain fake value from enum
+  const isEnum =
+    (options.enum && _.isArray(options.enum) && options.enum.length > 0);
+  if (!value && isEnum) {
+    const index = _.random(0, options.enum.length - 1);
+    value = options.enum[index];
+  }
+
+  //obtain fake value
+  if (!value) {
+    const fakeOptns = _.merge({}, FIELD_DEFAULTS, options.fake);
+    const generator = (fakeOptns.generator || DEFAULT_GENERATOR);
+    const type = (fakeOptns.type || DEFAULT_TYPE);
+
+    //generate value
+    //TODO pass arguments
+    const _locale = (options.locale || DEFAULT_LOCALE);
+    faker.locale = (_.has(LOCALES, _locale) ? _locale : DEFAULT_LOCALE);
+    value = _.get(faker, [generator, type]);
+
+    //enforce unique value generation
+    if (_.isFunction(value)) {
+      value = (options.unique ? faker.unique(value) : value());
+    } else {
+      value = undefined;
+    }
+  }
+
+  value = transform(value, options);
+
+  return value;
+}
+
 module.exports = exports = function mongooseFaker(schema, optns) {
 
   //merge options
@@ -88,6 +181,7 @@ module.exports = exports = function mongooseFaker(schema, optns) {
   });
 
 
+  //fake data generator
   const fakeData = function (
     size = 1, locale = 'en',
     only = undefined, except = undefined
@@ -109,29 +203,9 @@ module.exports = exports = function mongooseFaker(schema, optns) {
     }
 
     _.forEach(_fakeables, function (optns, path) {
-
-      //obtain default value
-      const defaultValue = _.get(optns, 'default');
-      let value = defaultValue;
-
-      //obtain fake value
-      if (!defaultValue) {
-        const fakeOptns = _.merge({}, FIELD_DEFAULTS, optns.fake);
-        const generator = (fakeOptns.generator || DEFAULT_GENERATOR);
-        const type = (fakeOptns.type || DEFAULT_TYPE);
-
-        //generate value
-        //TODO pass arguments
-        const _locale =
-          (locale || options.locale || DEFAULT_LOCALE);
-        faker.locale =
-          (_.has(LOCALES, _locale) ? _locale : DEFAULT_LOCALE);
-        value = _.get(faker, [generator, type]);
-        value = _.isFunction(value) ? value() : undefined;
-      }
-
+      const _optns = _.merge({}, options, optns, { locale: locale });
+      const value = generate(_optns);
       _.set(model, path, value);
-
     });
 
     return model;
