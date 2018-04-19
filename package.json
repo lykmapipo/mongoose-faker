@@ -29,10 +29,12 @@
     "url": "https://github.com/lykmapipo/mongoose-faker/issues"
   },
   "homepage": "https://github.com/lykmapipo/mongoose-faker",
-  "contributors": [{
-    "name": "lykmapipo",
-    "github": "https://github.com/lykmapipo"
-  }],
+  "contributors": [
+    {
+      "name": "lykmapipo",
+      "github": "https://github.com/lykmapipo"
+    }
+  ],
   "devDependencies": {
     "chai": "^4.1.2",
     "grunt": "^1.0.2",
@@ -40,7 +42,7 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
-    "mocha": "^5.1.0"
+    "mocha": "^5.1.1"
   },
   "dependencies": {
     "@turf/random": "^6.0.2",
