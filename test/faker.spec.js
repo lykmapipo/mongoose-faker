@@ -21,7 +21,6 @@ const generators = [
   'date',
   'finance',
   'hacker',
-  'helpers',
   'image',
   'internet',
   'lorem',

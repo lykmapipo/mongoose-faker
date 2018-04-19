@@ -27,6 +27,10 @@ const LOCALES = _.keys(faker.locales);
 const DEFAULT_LOCALE = 'en';
 const DEFAULT_GENERATOR = 'name';
 const DEFAULT_TYPE = 'findName';
+const DEFAULT_DATE_GENERATOR = 'date';
+const DEFAULT_DATE_TYPE = 'between';
+const DEFAULT_NUMBER_GENERATOR = 'random';
+const DEFAULT_NUMBER_TYPE = 'number';
 const FIELD_DEFAULTS = {
   generator: DEFAULT_GENERATOR,
   type: DEFAULT_TYPE
@@ -93,6 +97,18 @@ function generate(schemaTypeOptions) {
   //obtain default value
   let value = _.get(options, 'default', undefined);
 
+  //check if is mongoose date schematype
+  const isDateType =
+    (options.type ? (options.type.name === 'Date') : false);
+  const minDate = (options.min ? options.min : faker.date.past());
+  const maxDate = (options.max ? options.max : new Date());
+
+  //check if is mongoose number schema type
+  const isNumberType =
+    (options.type ? (options.type.name === 'Number') : false);
+  const minNumber = (options.min ? options.min : Number.MIN_SAFE_INTEGER);
+  const maxNumber = (options.max ? options.max : Number.MAX_SAFE_INTEGER);
+
   //...obtain fake value from enum
   const isEnum =
     (options.enum && _.isArray(options.enum) && options.enum.length > 0);
@@ -104,8 +120,16 @@ function generate(schemaTypeOptions) {
   //obtain fake value
   if (!value) {
     const fakeOptns = _.merge({}, FIELD_DEFAULTS, options.fake);
-    const generator = (fakeOptns.generator || DEFAULT_GENERATOR);
-    const type = (fakeOptns.type || DEFAULT_TYPE);
+
+    //prepare generators
+    let generator = (fakeOptns.generator || DEFAULT_GENERATOR);
+    generator = (isDateType ? DEFAULT_DATE_GENERATOR : generator);
+    generator = (isNumberType ? DEFAULT_NUMBER_GENERATOR : generator);
+
+    //prepare types
+    let type = (fakeOptns.type || DEFAULT_TYPE);
+    type = (isDateType ? DEFAULT_DATE_TYPE : type);
+    type = (isNumberType ? DEFAULT_NUMBER_TYPE : type);
 
     //generate value
     //TODO pass arguments
@@ -115,12 +139,28 @@ function generate(schemaTypeOptions) {
 
     //enforce unique value generation
     if (_.isFunction(value)) {
-      value = (options.unique ? faker.unique(value) : value());
+
+      //generate date value
+      if (isDateType && generator === DEFAULT_DATE_GENERATOR) {
+        value = value(minDate, maxDate);
+      }
+
+      //generate number value
+      else if (isNumberType) {
+        value = value({ min: minNumber, max: maxNumber });
+      }
+
+      //generate other value
+      else {
+        value = (options.unique ? faker.unique(value) : value());
+      }
+
     } else {
       value = undefined;
     }
   }
 
+  //transform based on schema type options
   value = transform(value, options);
 
   return value;
@@ -182,7 +222,7 @@ module.exports = exports = function mongooseFaker(schema, optns) {
 
 
   //fake data generator
-  const fakeData = function (
+  const fakeData = function _fakeData(
     size = 1, locale = 'en',
     only = undefined, except = undefined
   ) {
