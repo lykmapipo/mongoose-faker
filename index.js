@@ -97,6 +97,9 @@ function generate(schemaTypeOptions) {
   //obtain default value
   let value = _.get(options, 'default', undefined);
 
+  //handle functional default value as per mongoose guides
+  value = (value && _.isFunction(value) ? value() : value);
+
   //check if is mongoose date schematype
   const isDateType =
     (options.type ? (options.type.name === 'Date') : false);
@@ -152,7 +155,8 @@ function generate(schemaTypeOptions) {
 
       //generate other value
       else {
-        value = (options.unique ? faker.unique(value) : value());
+        const isUnique = (options.unique || fakeOptns.unique);
+        value = (isUnique ? faker.unique(value) : value());
       }
 
     } else {

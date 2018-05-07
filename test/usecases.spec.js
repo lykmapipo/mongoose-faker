@@ -3,9 +3,11 @@
 
 /*** dependencies */
 const path = require('path');
+const _ = require('lodash');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const expect = require('chai').expect;
+const faker = require('faker');
 
 
 /*** apply mongoose-faker plugin */
@@ -45,7 +47,24 @@ const PersonSchema = new Schema({
     min: MIN_NUMBER,
     max: MAX_NUMBER,
     fake: true
-  }
+  },
+
+  followers: {
+    type: Number,
+    default: function () { return faker.random.number(450, 9999); },
+    fake: true
+  },
+
+  luckyNumber: {
+    type: Number,
+    fake: true
+  },
+
+  name: {
+    type: String,
+    trim: true,
+    fake: { generator: 'name', type: 'findName', unique: true }
+  },
 
 });
 const Person = mongoose.model('Person', PersonSchema);
@@ -115,6 +134,37 @@ describe('fake plugin - usecases', function () {
     //assert below max
     expect(people[0].height).to.be.at.most(MAX_NUMBER);
     expect(people[1].height).to.be.at.most(MAX_NUMBER);
+
+  });
+
+
+  it('should generate fake from functional default', function () {
+    const people = Person.fake(2);
+
+    expect(people).to.exist;
+    expect(people).to.have.length(2);
+    expect(people[0].followers).to.exist;
+    expect(people[1].followers).to.exist;
+
+  });
+
+  it('should generate fake number', function () {
+    const people = Person.fake(2);
+
+    expect(people).to.exist;
+    expect(people).to.have.length(2);
+    expect(people[0].luckyNumber).to.exist;
+    expect(people[1].luckyNumber).to.exist;
+
+  });
+
+  it('should support unique on fake options', function () {
+    const people = Person.fake(1000);
+    const names = _.map(people, 'name');
+
+    expect(people).to.exist;
+    expect(people).to.have.length(1000);
+    expect(_.uniq(names)).to.have.length(1000);
 
   });
 
