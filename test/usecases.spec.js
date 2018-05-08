@@ -55,8 +55,14 @@ const PersonSchema = new Schema({
     fake: true
   },
 
-  luckyNumber: {
+  friends: {
     type: Number,
+    fake: true
+  },
+
+  referees: {
+    type: Number,
+    default: 0,
     fake: true
   },
 
@@ -153,8 +159,22 @@ describe('fake plugin - usecases', function () {
 
     expect(people).to.exist;
     expect(people).to.have.length(2);
-    expect(people[0].luckyNumber).to.exist;
-    expect(people[1].luckyNumber).to.exist;
+    expect(people[0].friends).to.exist;
+    expect(people[0].friends).to.be.at.least(0);
+    expect(people[1].friends).to.exist;
+    expect(people[1].friends).to.be.at.least(0);
+
+  });
+
+  it('should generate fake number and honour zero default', function () {
+    const people = Person.fake(2);
+
+    expect(people).to.exist;
+    expect(people).to.have.length(2);
+    expect(people[0].referees).to.exist;
+    expect(people[0].referees).to.be.equal(0);
+    expect(people[1].referees).to.exist;
+    expect(people[1].referees).to.be.equal(0);
 
   });
 

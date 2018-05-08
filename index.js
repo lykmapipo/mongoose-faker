@@ -109,7 +109,7 @@ function generate(schemaTypeOptions) {
   //check if is mongoose number schema type
   const isNumberType =
     (options.type ? (options.type.name === 'Number') : false);
-  const minNumber = (options.min ? options.min : Number.MIN_SAFE_INTEGER);
+  const minNumber = (options.min ? options.min : 0);
   const maxNumber = (options.max ? options.max : Number.MAX_SAFE_INTEGER);
 
   //...obtain fake value from enum
@@ -121,7 +121,7 @@ function generate(schemaTypeOptions) {
   }
 
   //obtain fake value
-  if (!value) {
+  if (value !== 0 && !value) {
     const fakeOptns = _.merge({}, FIELD_DEFAULTS, options.fake);
 
     //prepare generators
