@@ -25,6 +25,8 @@ const faker = require('faker');
 /*** local constants */
 const LOCALES = _.keys(faker.locales);
 const DEFAULT_LOCALE = 'en';
+const MAX_TIME = Number.MAX_SAFE_INTEGER;
+const MAX_RETRIES = Number.MAX_SAFE_INTEGER;
 const DEFAULT_GENERATOR = 'name';
 const DEFAULT_TYPE = 'findName';
 const DEFAULT_DATE_GENERATOR = 'date';
@@ -156,7 +158,12 @@ function generate(schemaTypeOptions) {
       //generate other value
       else {
         const isUnique = (options.unique || fakeOptns.unique);
-        value = (isUnique ? faker.unique(value) : value());
+        const uniqueOptns = { maxTime: MAX_TIME, maxRetries: MAX_RETRIES };
+        value = (
+          isUnique ?
+          faker.unique(value, undefined, uniqueOptns) :
+          value()
+        );
       }
 
     } else {
