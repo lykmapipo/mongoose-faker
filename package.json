@@ -1,6 +1,6 @@
 {
   "name": "@lykmapipo/mongoose-faker",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "mongoose plugin to generate fake model data",
   "keywords": [
     "mongoose",
@@ -39,15 +39,15 @@
     "chai": "^4.1.2",
     "grunt": "^1.0.2",
     "grunt-contrib-jshint": "^1.1.0",
-    "grunt-contrib-watch": "^1.0.1",
+    "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
-    "mocha": "^5.1.1"
+    "mocha": "^5.2.0"
   },
   "dependencies": {
+    "@benmaruchu/faker": "^4.2.0",
     "@turf/random": "^6.0.2",
-    "faker": "git+https://github.com/Marak/faker.js.git",
     "lodash": "^4.17.10",
-    "mongoose": "^5.0.17"
+    "mongoose": "^5.1.2"
   }
 }

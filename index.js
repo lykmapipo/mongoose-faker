@@ -19,7 +19,7 @@
 
 /*** dependencies */
 const _ = require('lodash');
-const faker = require('faker');
+const faker = require('@benmaruchu/faker');
 
 
 /*** local constants */

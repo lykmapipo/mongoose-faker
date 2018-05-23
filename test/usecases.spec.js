@@ -7,7 +7,7 @@ const _ = require('lodash');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const expect = require('chai').expect;
-const faker = require('faker');
+const faker = require('@benmaruchu/faker');
 
 
 /*** apply mongoose-faker plugin */
@@ -70,6 +70,18 @@ const PersonSchema = new Schema({
     type: String,
     trim: true,
     fake: { generator: 'name', type: 'findName', unique: true }
+  },
+
+  isMusician: {
+    type: Boolean,
+    default: false,
+    fake: true
+  },
+
+  isSportMan: {
+    type: Boolean,
+    default: true,
+    fake: true
   },
 
 });
@@ -185,6 +197,30 @@ describe('fake plugin - usecases', function () {
     expect(people).to.exist;
     expect(people).to.have.length(1000);
     expect(_.uniq(names)).to.have.length(1000);
+
+  });
+
+  it('should generate fake boolen and honour default', function () {
+    const people = Person.fake(2);
+
+    expect(people).to.exist;
+    expect(people).to.have.length(2);
+    expect(people[0].isMusician).to.exist;
+    expect(people[0].isMusician).to.be.false;
+    expect(people[1].isMusician).to.exist;
+    expect(people[1].isMusician).to.be.false;
+
+  });
+
+  it('should generate fake boolen and honour default', function () {
+    const people = Person.fake(2);
+
+    expect(people).to.exist;
+    expect(people).to.have.length(2);
+    expect(people[0].isSportMan).to.exist;
+    expect(people[0].isSportMan).to.be.true;
+    expect(people[1].isSportMan).to.exist;
+    expect(people[1].isSportMan).to.be.true;
 
   });
 

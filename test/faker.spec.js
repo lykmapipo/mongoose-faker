@@ -3,7 +3,7 @@
 /*** dependencies */
 const path = require('path');
 const _ = require('lodash');
-const faker = require('faker');
+const faker = require('@benmaruchu/faker');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Mixed = Schema.Types.Mixed;
