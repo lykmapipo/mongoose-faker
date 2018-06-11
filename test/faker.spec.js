@@ -1,6 +1,6 @@
 'use strict';
 
-/*** dependencies */
+/* dependencies */
 const path = require('path');
 const _ = require('lodash');
 const faker = require('@benmaruchu/faker');
@@ -9,10 +9,10 @@ const Schema = mongoose.Schema;
 const Mixed = Schema.Types.Mixed;
 const expect = require('chai').expect;
 
-/*** apply mongoose-faker plugin */
+/* apply mongoose-faker plugin */
 mongoose.plugin(require(path.join(__dirname, '..')));
 
-/*** model */
+/* model */
 const generators = [
   'address',
   'commerce',
@@ -31,7 +31,7 @@ const generators = [
 ];
 const fields = {};
 
-/*** prapare fields */
+/* prapare fields */
 _.forEach(generators, function (generator) {
   _.forEach(_.keys(faker[generator]), function (type) {
     fields[type] = { type: Mixed, fake: { generator: generator, type: type } };

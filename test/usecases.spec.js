@@ -1,7 +1,7 @@
 'use strict';
 
 
-/*** dependencies */
+/* dependencies */
 const path = require('path');
 const _ = require('lodash');
 const mongoose = require('mongoose');
@@ -10,11 +10,11 @@ const expect = require('chai').expect;
 const faker = require('@benmaruchu/faker');
 
 
-/*** apply mongoose-faker plugin */
+/* apply mongoose-faker plugin */
 mongoose.plugin(require(path.join(__dirname, '..')));
 
 
-/*** prepare model */
+/* prepare model */
 const GENDERS = ['Male', 'Female'];
 const MIN_DATE = new Date('1977-01-01');
 const MAX_DATE = new Date('2005-01-01');
@@ -200,7 +200,7 @@ describe('fake plugin - usecases', function () {
 
   });
 
-  it('should generate fake boolen and honour default', function () {
+  it('should generate fake boolean and honour default', function () {
     const people = Person.fake(2);
 
     expect(people).to.exist;
@@ -212,7 +212,7 @@ describe('fake plugin - usecases', function () {
 
   });
 
-  it('should generate fake boolen and honour default', function () {
+  it('should generate fake boolean and honour default', function () {
     const people = Person.fake(2);
 
     expect(people).to.exist;

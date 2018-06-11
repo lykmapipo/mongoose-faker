@@ -17,12 +17,12 @@
  */
 
 
-/*** dependencies */
+/* dependencies */
 const _ = require('lodash');
 const faker = require('@benmaruchu/faker');
 
 
-/*** local constants */
+/* local constants */
 const LOCALES = _.keys(faker.locales);
 const DEFAULT_LOCALE = 'en';
 const MAX_TIME = Number.MAX_SAFE_INTEGER;
