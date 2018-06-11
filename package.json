@@ -1,6 +1,6 @@
 {
   "name": "@lykmapipo/mongoose-faker",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "mongoose plugin to generate fake model data",
   "keywords": [
     "mongoose",

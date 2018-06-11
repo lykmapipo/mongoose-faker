@@ -114,6 +114,13 @@ function generate(schemaTypeOptions) {
   const minNumber = (options.min ? options.min : 0);
   const maxNumber = (options.max ? options.max : Number.MAX_SAFE_INTEGER);
 
+  //check if is mongoose boolean schema type
+  const isBooleanType =
+    (options.type ? (options.type.name === 'Boolean') : false);
+  if (isBooleanType) {
+    value = _.isBoolean(value) ? value : faker.random.boolean();
+  }
+
   //...obtain fake value from enum
   const isEnum =
     (options.enum && _.isArray(options.enum) && options.enum.length > 0);
@@ -123,7 +130,7 @@ function generate(schemaTypeOptions) {
   }
 
   //obtain fake value
-  if (value !== 0 && !value) {
+  if (!isBooleanType && value !== 0 && !value) {
     const fakeOptns = _.merge({}, FIELD_DEFAULTS, options.fake);
 
     //prepare generators
@@ -178,6 +185,11 @@ function generate(schemaTypeOptions) {
 }
 
 module.exports = exports = function mongooseFaker(schema, optns) {
+
+  //prevent n-times plugin registrations
+  if (schema && schema.statics && schema.statics.fake) {
+    return;
+  }
 
   //merge options
   const options = _.merge({}, optns);

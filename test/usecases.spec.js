@@ -84,6 +84,11 @@ const PersonSchema = new Schema({
     fake: true
   },
 
+  canWork: {
+    type: Boolean,
+    fake: true
+  },
+
 });
 const Person = mongoose.model('Person', PersonSchema);
 
@@ -221,6 +226,18 @@ describe('fake plugin - usecases', function () {
     expect(people[0].isSportMan).to.be.true;
     expect(people[1].isSportMan).to.exist;
     expect(people[1].isSportMan).to.be.true;
+
+  });
+
+  it('should generate fake boolean', function () {
+    const people = Person.fake(2);
+
+    expect(people).to.exist;
+    expect(people).to.have.length(2);
+    expect(people[0].canWork).to.exist;
+    expect(people[0].canWork).to.be.a('boolean');
+    expect(people[1].canWork).to.exist;
+    expect(people[1].canWork).to.be.a('boolean');
 
   });
 
