@@ -131,23 +131,34 @@ function generate(schemaTypeOptions) {
 
   //obtain fake value
   if (!isBooleanType && value !== 0 && !value) {
-    const fakeOptns = _.merge({}, FIELD_DEFAULTS, options.fake);
+    let fakeOptns =
+      (_.isFunction(options.fake) ? { generator: options.fake } : options.fake);
+    fakeOptns = _.merge({}, FIELD_DEFAULTS, fakeOptns);
 
     //prepare generators
     let generator = (fakeOptns.generator || DEFAULT_GENERATOR);
-    generator = (isDateType ? DEFAULT_DATE_GENERATOR : generator);
-    generator = (isNumberType ? DEFAULT_NUMBER_GENERATOR : generator);
 
-    //prepare types
-    let type = (fakeOptns.type || DEFAULT_TYPE);
-    type = (isDateType ? DEFAULT_DATE_TYPE : type);
-    type = (isNumberType ? DEFAULT_NUMBER_TYPE : type);
+    //handle functional generator
+    if (_.isFunction(generator)) {
+      value = generator;
+    }
 
-    //generate value
-    //TODO pass arguments
-    const _locale = (options.locale || DEFAULT_LOCALE);
-    faker.locale = (_.has(LOCALES, _locale) ? _locale : DEFAULT_LOCALE);
-    value = _.get(faker, [generator, type]);
+    //handle non-functional generator
+    else {
+      generator = (isDateType ? DEFAULT_DATE_GENERATOR : generator);
+      generator = (isNumberType ? DEFAULT_NUMBER_GENERATOR : generator);
+
+      //prepare types
+      let type = (fakeOptns.type || DEFAULT_TYPE);
+      type = (isDateType ? DEFAULT_DATE_TYPE : type);
+      type = (isNumberType ? DEFAULT_NUMBER_TYPE : type);
+
+      //generate value
+      //TODO pass arguments
+      const _locale = (options.locale || DEFAULT_LOCALE);
+      faker.locale = (_.has(LOCALES, _locale) ? _locale : DEFAULT_LOCALE);
+      value = _.get(faker, [generator, type]);
+    }
 
     //enforce unique value generation
     if (_.isFunction(value)) {

@@ -89,6 +89,18 @@ const PersonSchema = new Schema({
     fake: true
   },
 
+  canLead: {
+    type: String,
+    trim: true,
+    fake: { generator: () => { return 'YES'; } }
+  },
+
+  canTalk: {
+    type: String,
+    trim: true,
+    fake: () => { return Date.now() % 2 > 0 ? 'YES' : 'NO'; }
+  },
+
 });
 const Person = mongoose.model('Person', PersonSchema);
 
@@ -228,6 +240,28 @@ describe('fake plugin - usecases', () => {
     expect(people[0].canWork).to.be.a('boolean');
     expect(people[1].canWork).to.exist;
     expect(people[1].canWork).to.be.a('boolean');
+  });
+
+  it('should generate fake from function', () => {
+    const people = Person.fake(2);
+
+    expect(people).to.exist;
+    expect(people).to.have.length(2);
+    expect(people[0].canLead).to.exist;
+    expect(people[0].canLead).to.be.a('string');
+    expect(people[1].canLead).to.exist;
+    expect(people[1].canLead).to.be.a('string');
+  });
+
+  it('should generate fake from function', () => {
+    const people = Person.fake(2);
+
+    expect(people).to.exist;
+    expect(people).to.have.length(2);
+    expect(people[0].canTalk).to.exist;
+    expect(people[0].canTalk).to.be.a('string');
+    expect(people[1].canTalk).to.exist;
+    expect(people[1].canTalk).to.be.a('string');
   });
 
 });
