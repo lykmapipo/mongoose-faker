@@ -51,7 +51,7 @@ const PersonSchema = new Schema({
 
   followers: {
     type: Number,
-    default: function () { return faker.random.number(450, 9999); },
+    default: () => { return faker.random.number(450, 9999); },
     fake: true
   },
 
@@ -93,26 +93,25 @@ const PersonSchema = new Schema({
 const Person = mongoose.model('Person', PersonSchema);
 
 
-describe('fake plugin - usecases', function () {
+describe('fake plugin - usecases', () => {
 
-  it('should extend schema with fake method', function () {
+  it('should extend schema with fake method', () => {
     expect(Person.fake).to.exist;
     expect(Person.fake).to.be.a('function');
     expect(Person.fake.name).to.be.equal('fake');
   });
 
-  it('should generate fake unique number', function () {
+  it('should generate fake unique number', () => {
     const people = Person.fake(2);
 
     expect(people).to.exist;
     expect(people).to.have.length(2);
     expect(people[0].number).to.exist;
     expect(people[1].number).to.exist;
-    expect(people[0].number)
-      .to.not.equal(people[1].number);
+    expect(people[0].number).to.not.equal(people[1].number);
   });
 
-  it('should generate fake from enum options', function () {
+  it('should generate fake from enum options', () => {
     const people = Person.fake(2);
 
     expect(people).to.exist;
@@ -121,10 +120,9 @@ describe('fake plugin - usecases', function () {
     expect(people[1].gender).to.exist;
     expect(GENDERS).to.include(people[0].gender);
     expect(GENDERS).to.include(people[1].gender);
-
   });
 
-  it('should generate fake from date options', function () {
+  it('should generate fake from date options', () => {
     const people = Person.fake(2);
 
     expect(people).to.exist;
@@ -139,10 +137,9 @@ describe('fake plugin - usecases', function () {
     //assert below max
     expect(people[0].dob.getTime()).to.be.below(MAX_DATE.getTime());
     expect(people[1].dob.getTime()).to.be.below(MAX_DATE.getTime());
-
   });
 
-  it('should generate fake from number options', function () {
+  it('should generate fake from number options', () => {
     const people = Person.fake(2);
 
     expect(people).to.exist;
@@ -157,21 +154,19 @@ describe('fake plugin - usecases', function () {
     //assert below max
     expect(people[0].height).to.be.at.most(MAX_NUMBER);
     expect(people[1].height).to.be.at.most(MAX_NUMBER);
-
   });
 
 
-  it('should generate fake from functional default', function () {
+  it('should generate fake from functional default', () => {
     const people = Person.fake(2);
 
     expect(people).to.exist;
     expect(people).to.have.length(2);
     expect(people[0].followers).to.exist;
     expect(people[1].followers).to.exist;
-
   });
 
-  it('should generate fake number', function () {
+  it('should generate fake number', () => {
     const people = Person.fake(2);
 
     expect(people).to.exist;
@@ -180,10 +175,9 @@ describe('fake plugin - usecases', function () {
     expect(people[0].friends).to.be.at.least(0);
     expect(people[1].friends).to.exist;
     expect(people[1].friends).to.be.at.least(0);
-
   });
 
-  it('should generate fake number and honour zero default', function () {
+  it('should generate fake number and honour zero default', () => {
     const people = Person.fake(2);
 
     expect(people).to.exist;
@@ -192,20 +186,18 @@ describe('fake plugin - usecases', function () {
     expect(people[0].referees).to.be.equal(0);
     expect(people[1].referees).to.exist;
     expect(people[1].referees).to.be.equal(0);
-
   });
 
-  it('should support unique on fake options', function () {
+  it('should support unique on fake options', () => {
     const people = Person.fake(1000);
     const names = _.map(people, 'name');
 
     expect(people).to.exist;
     expect(people).to.have.length(1000);
     expect(_.uniq(names)).to.have.length(1000);
-
   });
 
-  it('should generate fake boolean and honour default', function () {
+  it('should generate fake boolean and honour default', () => {
     const people = Person.fake(2);
 
     expect(people).to.exist;
@@ -214,10 +206,9 @@ describe('fake plugin - usecases', function () {
     expect(people[0].isMusician).to.be.false;
     expect(people[1].isMusician).to.exist;
     expect(people[1].isMusician).to.be.false;
-
   });
 
-  it('should generate fake boolean and honour default', function () {
+  it('should generate fake boolean and honour default', () => {
     const people = Person.fake(2);
 
     expect(people).to.exist;
@@ -226,10 +217,9 @@ describe('fake plugin - usecases', function () {
     expect(people[0].isSportMan).to.be.true;
     expect(people[1].isSportMan).to.exist;
     expect(people[1].isSportMan).to.be.true;
-
   });
 
-  it('should generate fake boolean', function () {
+  it('should generate fake boolean', () => {
     const people = Person.fake(2);
 
     expect(people).to.exist;
@@ -238,7 +228,6 @@ describe('fake plugin - usecases', function () {
     expect(people[0].canWork).to.be.a('boolean');
     expect(people[1].canWork).to.exist;
     expect(people[1].canWork).to.be.a('boolean');
-
   });
 
 });
