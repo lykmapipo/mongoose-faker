@@ -16,6 +16,7 @@ mongoose.plugin(require(path.join(__dirname, '..')));
 
 /* prepare model */
 const GENDERS = ['Male', 'Female'];
+const INTERESTS = ['Music', 'Fashion', 'Football'];
 const MIN_DATE = new Date('1977-01-01');
 const MAX_DATE = new Date('2005-01-01');
 const MIN_NUMBER = 80;
@@ -32,6 +33,13 @@ const PersonSchema = new Schema({
   gender: {
     type: String,
     enum: GENDERS,
+    fake: true
+  },
+
+  interest: {
+    type: String,
+    enum: INTERESTS,
+    default: 'Fashion',
     fake: true
   },
 
@@ -132,6 +140,17 @@ describe('fake plugin - usecases', () => {
     expect(people[1].gender).to.exist;
     expect(GENDERS).to.include(people[0].gender);
     expect(GENDERS).to.include(people[1].gender);
+  });
+
+  it('should generate fake from enum options even if there is default', () => {
+    const people = Person.fake(2);
+
+    expect(people).to.exist;
+    expect(people).to.have.length(2);
+    expect(people[0].interest).to.exist;
+    expect(people[1].interest).to.exist;
+    expect(INTERESTS).to.include(people[0].interest);
+    expect(INTERESTS).to.include(people[1].interest);
   });
 
   it('should generate fake from date options', () => {

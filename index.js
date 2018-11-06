@@ -121,10 +121,11 @@ function generate(schemaTypeOptions) {
     value = _.isBoolean(value) ? value : faker.random.boolean();
   }
 
-  //...obtain fake value from enum
+  //obtain fake value from enum
   const isEnum =
     (options.enum && _.isArray(options.enum) && options.enum.length > 0);
-  if (!value && isEnum) {
+  // if (!value && isEnum) {
+  if (isEnum) {
     const index = _.random(0, options.enum.length - 1);
     value = options.enum[index];
   }
