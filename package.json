@@ -1,6 +1,6 @@
 {
   "name": "@lykmapipo/mongoose-faker",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "mongoose plugin to generate fake model data",
   "keywords": [
     "lykmapipo",
@@ -44,13 +44,13 @@
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
     "mocha": "^5.2.0",
-    "mongoose": "^5.3.10"
+    "mongoose": "^5.4.0"
   },
   "peerDependencies": {
-    "lodash": "^4.17.11",
-    "mongoose": "^5.3.10"
+    "lodash": ">=4.17.11",
+    "mongoose": ">=5.4.0"
   },
   "dependencies": {
-    "@benmaruchu/faker": "^4.2.1"
+    "@benmaruchu/faker": ">=4.2.1"
   }
 }
