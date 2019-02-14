@@ -12,7 +12,7 @@ mongoose plugin to generate fake model data
 
 ## Install
 ```sh
-$ npm install --save lodash mongoose @lykmapipo/mongoose-faker
+$ npm install --save @lykmapipo/mongoose-faker
 ```
 
 ## Usage

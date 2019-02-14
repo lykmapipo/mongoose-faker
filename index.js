@@ -141,7 +141,7 @@ function generate(schemaTypeOptions) {
 
     //handle functional generator
     if (_.isFunction(generator)) {
-      value = generator;
+      value = () => generator(faker);
     }
 
     //handle non-functional generator

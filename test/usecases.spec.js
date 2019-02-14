@@ -109,6 +109,14 @@ const PersonSchema = new Schema({
     fake: () => { return Date.now() % 2 > 0 ? 'YES' : 'NO'; }
   },
 
+  phone: {
+    type: String,
+    trim: true,
+    fake: faker => {
+      return faker.helpers.replaceSymbolWithNumber('255714######');
+    }
+  },
+
 });
 const Person = mongoose.model('Person', PersonSchema);
 
@@ -281,6 +289,17 @@ describe('fake plugin - usecases', () => {
     expect(people[0].canTalk).to.be.a('string');
     expect(people[1].canTalk).to.exist;
     expect(people[1].canTalk).to.be.a('string');
+  });
+
+  it('should generate fake from function using faker', () => {
+    const people = Person.fake(2);
+
+    expect(people).to.exist;
+    expect(people).to.have.length(2);
+    expect(people[0].phone).to.exist;
+    expect(people[0].phone).to.be.a('string');
+    expect(people[1].phone).to.exist;
+    expect(people[1].phone).to.be.a('string');
   });
 
 });
