@@ -1,3 +1,9 @@
+#### 0.9.2 (2019-04-27)
+
+##### Chores
+
+* **dependencies:**  force latest versions ([1d19b8bc](https://github.com/lykmapipo/mongoose-faker/commit/1d19b8bcd6a0ff7a9cd63308aa303ecbc7fa31b7))
+
 #### 0.9.1 (2019-04-16)
 
 ##### Chores
