@@ -43,11 +43,11 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-mocha-test": "^0.13.3",
     "jshint-stylish": "^2.2.1",
-    "mocha": "^6.1.3",
+    "mocha": "^6.1.4",
     "mongoose": "^5.4.12"
   },
   "peerDependencies": {
-    "mongoose": ">=5.5.2"
+    "mongoose": ">=5.5.4"
   },
   "dependencies": {
     "@benmaruchu/faker": ">=4.2.1",
