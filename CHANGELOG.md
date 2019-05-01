@@ -1,3 +1,11 @@
+#### 0.9.3 (2019-05-01)
+
+##### Chores
+
+* **.npmrc:**  prevent npm version to commit and tag version ([86bedc81](https://github.com/lykmapipo/mongoose-faker/commit/86bedc81e6b2bb9b7466a70470cb57aa71f0dc31))
+* **deps:**  force latest version & audit fix ([0824791a](https://github.com/lykmapipo/mongoose-faker/commit/0824791a5694394605232084cf58eb9c89021a94))
+* **ci:**  force latest nodejs ([7a1835e6](https://github.com/lykmapipo/mongoose-faker/commit/7a1835e6b5620576d81920f8c2fdbded6dfe9894))
+
 #### 0.9.2 (2019-04-27)
 
 ##### Chores
