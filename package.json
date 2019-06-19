@@ -48,7 +48,7 @@
     "mongoose": ">=5.4.12"
   },
   "peerDependencies": {
-    "mongoose": ">=5.5.14"
+    "mongoose": ">=5.6.0"
   },
   "dependencies": {
     "@benmaruchu/faker": ">=4.2.1",
