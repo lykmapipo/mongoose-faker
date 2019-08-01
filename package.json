@@ -44,15 +44,15 @@
     "grunt-mocha-test": "^0.13.3",
     "handlebars": "^4.1.2",
     "jshint-stylish": "^2.2.1",
-    "mocha": "^6.1.4",
+    "mocha": "^6.2.0",
     "mongoose": "^5.6.0",
     "shelljs": "^0.8.3"
   },
   "peerDependencies": {
-    "mongoose": ">=5.6.4"
+    "mongoose": ">=5.6.7"
   },
   "dependencies": {
-    "@benmaruchu/faker": ">=4.2.1",
-    "lodash": ">=4.17.11"
+    "@benmaruchu/faker": ">=4.3.0",
+    "lodash": ">=4.17.15"
   }
 }
