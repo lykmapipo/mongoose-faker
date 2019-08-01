@@ -1,3 +1,9 @@
+#### 0.9.11 (2019-08-01)
+
+##### Tests
+
+*  remove non fakeable paths ([19a18eee](https://github.com/lykmapipo/mongoose-faker/commit/19a18eee4b1c3735490e07f807200a920b4e185e))
+
 #### 0.9.10 (2019-08-01)
 
 ##### Chores
