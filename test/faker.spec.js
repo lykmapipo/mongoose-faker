@@ -13,6 +13,7 @@ const expect = require('chai').expect;
 mongoose.plugin(require(path.join(__dirname, '..')));
 
 /* model */
+const ignored = ['lorempixel', 'unsplash'];
 const generators = [
   'address',
   'commerce',
@@ -30,14 +31,14 @@ const generators = [
   'system'
 ];
 const fields = {};
+const types = generator => _.without(_.keys(faker[generator]), ...ignored);
 
 /* prapare fields */
 _.forEach(generators, (generator) => {
-  _.forEach(_.keys(faker[generator]), (type) => {
+  _.forEach(types(generator), (type) => {
     fields[type] = { type: Mixed, fake: { generator: generator, type: type } };
   });
 });
-
 
 const UserSchema = new Schema(fields);
 const User = mongoose.model('User', UserSchema);
@@ -57,7 +58,7 @@ describe('fake plugin', () => {
 
     //assert fields
     _.forEach(generators, (generator) => {
-      _.forEach(_.keys(faker[generator]), (type) => {
+      _.forEach(types(generator), (type) => {
         expect(user[type]).to.exist;
       });
     });
@@ -75,7 +76,7 @@ describe('fake plugin', () => {
       expect(user._id).to.exist;
 
       _.forEach(generators, (generator) => {
-        _.forEach(_.keys(faker[generator]), (type) => {
+        _.forEach(types(generator), (type) => {
           expect(user[type]).to.exist;
         });
       });
@@ -88,9 +89,8 @@ describe('fake plugin', () => {
     expect(user.zipCode).to.exist;
 
     _.forEach(generators, (generator) => {
-      const types =
-        _.without(_.keys(faker[generator]), 'zipCode');
-      _.forEach(types, (type) => {
+      const only = _.without(types(generator), 'zipCode');
+      _.forEach(only, (type) => {
         expect(user[type]).to.not.exist;
       });
     });
@@ -108,9 +108,8 @@ describe('fake plugin', () => {
       expect(user.zipCode).to.exist;
 
       _.forEach(generators, (generator) => {
-        const types =
-          _.without(_.keys(faker[generator]), 'zipCode');
-        _.forEach(types, (type) => {
+        const only = _.without(types(generator), 'zipCode');
+        _.forEach(only, (type) => {
           expect(user[type]).to.not.exist;
         });
       });
@@ -123,9 +122,8 @@ describe('fake plugin', () => {
     expect(user.zipCode).to.not.exist;
 
     _.forEach(generators, (generator) => {
-      const types =
-        _.without(_.keys(faker[generator]), 'zipCode');
-      _.forEach(types, (type) => {
+      const except = _.without(types(generator), 'zipCode');
+      _.forEach(except, (type) => {
         expect(user[type]).to.exist;
       });
     });
@@ -143,9 +141,8 @@ describe('fake plugin', () => {
       expect(user.zipCode).to.not.exist;
 
       _.forEach(generators, (generator) => {
-        const types =
-          _.without(_.keys(faker[generator]), 'zipCode');
-        _.forEach(types, (type) => {
+        const except = _.without(types(generator), 'zipCode');
+        _.forEach(except, (type) => {
           expect(user[type]).to.exist;
         });
       });
