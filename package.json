@@ -49,7 +49,7 @@
     "shelljs": "^0.8.3"
   },
   "peerDependencies": {
-    "mongoose": ">=5.6.7"
+    "mongoose": ">=5.6.9"
   },
   "dependencies": {
     "@benmaruchu/faker": ">=4.3.0",
