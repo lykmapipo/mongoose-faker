@@ -1,3 +1,13 @@
+#### 0.10.1 (2019-09-28)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([3b6d85bc](https://github.com/lykmapipo/mongoose-faker/commit/3b6d85bcd4cd8bda1efcf84a2c0917b9befee4e7))
+
+##### Bug Fixes
+
+* **deps:**  remove cyclic dependency to @lykmapipo/mongoose-test-helpers ([1c21dca5](https://github.com/lykmapipo/mongoose-faker/commit/1c21dca51af550db30534f2de84cc5292c2ab199))
+
 #### 0.10.0 (2019-09-28)
 
 ##### New Features
