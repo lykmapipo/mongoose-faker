@@ -1,3 +1,9 @@
+#### 0.10.0 (2019-09-28)
+
+##### New Features
+
+*  allow subdoc paths on instance fakeOnly & fakeExcept ([19ac1252](https://github.com/lykmapipo/mongoose-faker/commit/19ac125212f9a0fb67fb48a3b9b30f5034987535))
+
 #### 0.9.14 (2019-09-26)
 
 ##### Chores
