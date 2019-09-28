@@ -1,17 +1,9 @@
 'use strict';
 
-
-/* dependencies */
-const path = require('path');
 const _ = require('lodash');
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const expect = require('chai').expect;
-const faker = require('@benmaruchu/faker');
-
-
-/* apply mongoose-faker plugin */
-mongoose.plugin(require(path.join(__dirname, '..')));
+const { expect, faker } = require('@lykmapipo/mongoose-test-helpers');
+const { Schema, createModel } = require('@lykmapipo/mongoose-common');
+const mongooseFaker = require('..');
 
 
 /* prepare model */
@@ -21,7 +13,7 @@ const MIN_DATE = new Date('1977-01-01');
 const MAX_DATE = new Date('2005-01-01');
 const MIN_NUMBER = 80;
 const MAX_NUMBER = 120;
-const PersonSchema = new Schema({
+const fields = {
   number: {
     type: String,
     trim: true,
@@ -117,8 +109,13 @@ const PersonSchema = new Schema({
     }
   },
 
-});
-const Person = mongoose.model('Person', PersonSchema);
+  contact: new Schema({
+    phone: { type: String, fake: f => f.phone.phoneNumber() },
+    email: { type: String, fake: f => f.internet.email() }
+  })
+
+};
+const Person = createModel(fields, { modelName: 'Person' }, mongooseFaker);
 
 
 describe('fake plugin - usecases', () => {
@@ -300,6 +297,20 @@ describe('fake plugin - usecases', () => {
     expect(people[0].phone).to.be.a('string');
     expect(people[1].phone).to.exist;
     expect(people[1].phone).to.be.a('string');
+  });
+
+  it('should be able to update only specified subdocument field(s)', () => {
+    const person = Person.fake();
+    const phone = person.contact.phone;
+    const email = person.contact.email;
+
+    person.fakeOnly('contact.phone');
+
+    expect(person.contact.phone).to.exist;
+    expect(person.contact.phone).to.not.be.equal(phone);
+
+    expect(person.contact.email).to.exist;
+    expect(person.contact.email).to.be.equal(email);
   });
 
 });

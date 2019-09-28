@@ -20,6 +20,8 @@
 /* dependencies */
 const _ = require('lodash');
 const faker = require('@benmaruchu/faker');
+const { mergeObjects } = require('@lykmapipo/common');
+const { copyInstance } = require('@lykmapipo/mongoose-common');
 
 
 /* local constants */
@@ -382,8 +384,11 @@ module.exports = exports = function mongooseFaker(schema, optns) {
     //generate data
     const data = fakeData(1, undefined, only, undefined);
 
+    // merge existing instance
+    const changes = mergeObjects(copyInstance(this), copyInstance(data));
+
     //update model instance
-    this.set(data);
+    this.set(changes);
 
     return this;
 
@@ -407,8 +412,11 @@ module.exports = exports = function mongooseFaker(schema, optns) {
     //generate data
     const data = fakeData(1, undefined, undefined, except);
 
+    // merge existing instance
+    const changes = mergeObjects(copyInstance(this), copyInstance(data));
+
     //update model instance
-    this.set(data);
+    this.set(changes);
 
     return this;
 

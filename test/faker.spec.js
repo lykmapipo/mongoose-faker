@@ -1,16 +1,9 @@
 'use strict';
 
-/* dependencies */
-const path = require('path');
 const _ = require('lodash');
-const faker = require('@benmaruchu/faker');
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const Mixed = Schema.Types.Mixed;
-const expect = require('chai').expect;
-
-/* apply mongoose-faker plugin */
-mongoose.plugin(require(path.join(__dirname, '..')));
+const { expect, faker } = require('@lykmapipo/mongoose-test-helpers');
+const { Mixed, createModel } = require('@lykmapipo/mongoose-common');
+const mongooseFaker = require('..');
 
 /* model */
 const ignored = ['lorempixel', 'unsplash'];
@@ -40,8 +33,7 @@ _.forEach(generators, (generator) => {
   });
 });
 
-const UserSchema = new Schema(fields);
-const User = mongoose.model('User', UserSchema);
+const User = createModel(fields, { modelName: 'User', }, mongooseFaker);
 
 describe('fake plugin', () => {
 
