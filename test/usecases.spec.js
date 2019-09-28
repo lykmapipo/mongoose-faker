@@ -1,7 +1,7 @@
 'use strict';
 
 const _ = require('lodash');
-const { expect, faker } = require('@lykmapipo/mongoose-test-helpers');
+const { expect, faker } = require('@lykmapipo/test-helpers');
 const { Schema, createModel } = require('@lykmapipo/mongoose-common');
 const mongooseFaker = require('..');
 
