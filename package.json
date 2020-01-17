@@ -37,7 +37,7 @@
     }
   ],
   "devDependencies": {
-    "@lykmapipo/test-helpers": "^0.5.4",
+    "@lykmapipo/test-helpers": "^0.5.5",
     "chai": "^4.2.0",
     "grunt": "^1.0.4",
     "grunt-contrib-jshint": "^2.1.0",
@@ -54,8 +54,8 @@
   },
   "dependencies": {
     "@benmaruchu/faker": ">=4.3.0",
-    "@lykmapipo/common": ">=0.30.1",
-    "@lykmapipo/mongoose-common": ">=0.28.5",
+    "@lykmapipo/common": ">=0.30.2",
+    "@lykmapipo/mongoose-common": ">=0.28.7",
     "lodash": ">=4.17.15"
   }
 }
