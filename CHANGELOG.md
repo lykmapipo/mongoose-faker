@@ -1,3 +1,9 @@
+#### 0.10.22 (2020-06-26)
+
+##### Chores
+
+* **deps:**  force latest version & audit fix ([6df87475](https://github.com/lykmapipo/mongoose-faker/commit/6df87475b60344833a4c2e03eebb638faf898db2))
+
 #### 0.10.21 (2020-06-10)
 
 ##### Chores
