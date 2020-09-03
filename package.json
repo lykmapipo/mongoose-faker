@@ -53,9 +53,9 @@
     "mongoose": ">=5.9.28"
   },
   "dependencies": {
-    "@benmaruchu/faker": ">=4.3.0",
     "@lykmapipo/common": ">=0.38.2",
     "@lykmapipo/mongoose-common": ">=0.38.4",
+    "faker": "^5.1.0",
     "lodash": ">=4.17.19"
   }
 }
