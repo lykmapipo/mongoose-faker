@@ -6,7 +6,7 @@ const { Mixed, createModel } = require('@lykmapipo/mongoose-common');
 const mongooseFaker = require('..');
 
 /* model */
-const ignored = ['lorempixel', 'unsplash'];
+const ignored = ['lorempixel', 'unsplash', 'lorempicsum'];
 const generators = [
   'address',
   'commerce',
