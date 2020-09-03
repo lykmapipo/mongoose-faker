@@ -1,3 +1,14 @@
+#### 0.11.0 (2020-09-03)
+
+##### Chores
+
+* **release:**  compile latest source & release notes ([fca7d5bb](https://github.com/lykmapipo/mongoose-faker/commit/fca7d5bba94f8da2d76b4d53ba06e6b01facbde2))
+* **deps:**  use latest version ([8dc9c6e1](https://github.com/lykmapipo/mongoose-faker/commit/8dc9c6e17bc6024459a50d6148d25d5efe2135ae))
+
+##### Refactors
+
+*  use faker instead of benmaruchu/faker lib ([c58d26b6](https://github.com/lykmapipo/mongoose-faker/commit/c58d26b6d9d0dc3634bfe0eb5078f309379f8085))
+
 #### 0.10.26 (2020-08-08)
 
 ##### Chores
