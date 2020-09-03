@@ -19,7 +19,7 @@
 
 /* dependencies */
 const _ = require('lodash');
-const faker = require('@benmaruchu/faker');
+const faker = require('faker');
 const { mergeObjects } = require('@lykmapipo/common');
 const { copyInstance } = require('@lykmapipo/mongoose-common');
 
@@ -182,8 +182,8 @@ function generate(schemaTypeOptions) {
         const uniqueOptns = { maxTime: MAX_TIME, maxRetries: MAX_RETRIES };
         value = (
           isUnique ?
-          faker.unique(value, undefined, uniqueOptns) :
-          value()
+            faker.unique(value, undefined, uniqueOptns) :
+            value()
         );
       }
 
