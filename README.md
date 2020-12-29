@@ -70,8 +70,8 @@ Return fake model(s) instance without specified fields
 
 Example:
 ```js
-const user = User.fakeExpect('name', 'age');
-const users = User.fakeExpect(4, 'name', 'age');
+const user = User.fakeExcept('name', 'age');
+const users = User.fakeExcept(4, 'name', 'age');
 ```
 
 ### Instance
@@ -84,8 +84,8 @@ Example:
 
 ....
 
-const user = user.fakeOnly('name');
-const user = user.fakeOnly('name', 'age');
+const user = User.fakeOnly('name');
+const user = User.fakeOnly('name', 'age');
 ```
 
 #### `model.fakeExcept(...fields): model`
@@ -96,8 +96,8 @@ Example:
 
 ...
 
-const user = user.fakeExpect('name', 'age');
-const users = user.fakeExpect('name', 'age');
+const user = User.fakeExcept('name', 'age');
+const users = User.fakeExcept('name', 'age');
 ```
 
 
