@@ -1,3 +1,9 @@
+#### 0.11.2 (2020-12-29)
+
+##### Chores
+
+* **deps:**  force latest versions ([b75ceb36](https://github.com/lykmapipo/mongoose-faker/commit/b75ceb369c31b9733835944665e6d20ea36de596))
+
 #### 0.11.1 (2020-12-27)
 
 ##### Chores
