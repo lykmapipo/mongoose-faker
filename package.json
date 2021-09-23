@@ -2,6 +2,31 @@
   "name": "@lykmapipo/mongoose-faker",
   "version": "0.11.2",
   "description": "mongoose plugin to generate fake model data",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "scripts": {
+    "clean": "rimraf lib dist es umd logs",
+    "prepare": "husky install",
+    "prebuild": "npm test && npm run clean",
+    "build": "rollup -c",
+    "lint": "eslint --fix --ext .js src/ test/ examples/ rollup.config.js",
+    "prettier": "prettier --write '**/*.{md,json,yml,html}'",
+    "pretest": "npm run lint",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha --exit --timeout=8000 --require @babel/register test/**/*.spec.js",
+    "test:unit": "NODE_ENV=test npm run pretest && NODE_ENV=test mocha --exit --timeout=8000 --require @babel/register test/unit/**/*.spec.js",
+    "test:integration": "NODE_ENV=test npm run pretest && NODE_ENV=test mocha --exit --timeout=8000 --require @babel/register test/integration/**/*.spec.js",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "docs": "doxdox 'lib/**/*.js' -p package.json -l markdown -o DOCUMENTATION.md",
+    "cmt": "git add -A && git-cz",
+    "changelog": "changelog",
+    "chore:deps": "ncu -u && npm install --save",
+    "lint:config": "eslint --print-config rollup.config.js",
+    "examples": "NODE_ENV=development BASE_PATH=./examples babel-node ./examples/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lykmapipo/mongoose-faker.git"
+  },
   "keywords": [
     "lykmapipo",
     "mongoose",
@@ -12,50 +37,95 @@
     "fixtures",
     "seeds"
   ],
-  "main": "index.js",
-  "scripts": {
-    "test": "NODE_ENV=test grunt test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/lykmapipo/mongoose-faker.git"
-  },
   "author": {
     "name": "lykmapipo",
     "email": "lallyelias87@gmail.com",
     "url": "https://github.com/lykmapipo"
   },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/lykmapipo/mongoose-faker/issues"
-  },
-  "homepage": "https://github.com/lykmapipo/mongoose-faker",
   "contributors": [
     {
       "name": "lykmapipo",
-      "github": "https://github.com/lykmapipo"
+      "email": "lallyelias87@gmail.com",
+      "url": "https://github.com/lykmapipo"
     }
   ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lykmapipo/mongoose-faker/issues",
+    "email": "lallyelias87@gmail.com"
+  },
+  "homepage": "https://github.com/lykmapipo/mongoose-faker",
   "devDependencies": {
-    "@lykmapipo/test-helpers": "^0.6.7",
-    "chai": "^4.2.0",
-    "grunt": "^1.3.0",
-    "grunt-contrib-jshint": "^3.0.0",
-    "grunt-contrib-watch": "^1.1.0",
-    "grunt-mocha-test": "^0.13.3",
-    "handlebars": "^4.7.6",
-    "jshint-stylish": "^2.2.1",
-    "mocha": "^8.2.1",
-    "mongoose": ">=5.11.9",
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/node": "^7.14.2",
+    "@babel/preset-env": "^7.14.4",
+    "@babel/register": "^7.13.16",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "@commitlint/travis-cli": "^12.1.4",
+    "@lykmapipo/test-helpers": "^0.6.17",
+    "acorn": "^8.3.0",
+    "chai": "^4.3.4",
+    "commitizen": "^4.2.4",
+    "coveralls": "^3.1.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "doxdox": "^3.0.0",
+    "eslint": "^7.28.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsdoc": "^35.1.2",
+    "eslint-plugin-mocha": "^9.0.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "generate-changelog": "^1.8.0",
+    "handlebars": "^4.7.7",
+    "husky": "^6.0.0",
+    "kind-of": "^6.0.3",
+    "lint-staged": "^11.0.0",
+    "lodash.template": "^4.5.0",
+    "minimist": "^1.2.5",
+    "mocha": "^8.4.0",
+    "nyc": "^15.1.0",
+    "prettier": "^2.3.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.50.6",
     "shelljs": "^0.8.4"
   },
-  "peerDependencies": {
-    "mongoose": ">=5.11.9"
-  },
+  "peerDependencies": {},
   "dependencies": {
-    "@lykmapipo/common": ">=0.42.5",
+    "@lykmapipo/common": ">=0.43.2",
+    "@lykmapipo/env": ">=0.17.33",
     "@lykmapipo/mongoose-common": ">=0.39.0",
+    "async": ">=3.2.0",
     "faker": ">=5.1.0",
-    "lodash": ">=4.17.20"
+    "lodash": ">=4.17.21",
+    "mongoose": ">=5.12.13"
+  },
+  "engines": {
+    "node": ">=8.11.1",
+    "npm": ">=5.6.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "npm run lint",
+      "git add -A"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }

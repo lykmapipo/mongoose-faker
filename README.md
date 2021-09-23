@@ -1,25 +1,36 @@
 # mongoose-faker
 
-[![Build Status](https://travis-ci.org/lykmapipo/mongoose-faker.svg?branch=master)](https://travis-ci.org/lykmapipo/mongoose-faker)
-[![Dependencies Status](https://david-dm.org/lykmapipo/mongoose-faker/status.svg)](https://david-dm.org/lykmapipo/mongoose-faker)
-[![npm version](https://badge.fury.io/js/%40lykmapipo%2Fmongoose-faker.svg)](https://badge.fury.io/js/%40lykmapipo%2Fmongoose-faker)
+[![Build Status](https://app.travis-ci.com/lykmapipo/mongoose-faker.svg?branch=master)](https://app.travis-ci.com/lykmapipo/mongoose-faker)
+[![Dependencies Status](https://david-dm.org/lykmapipo/mongoose-faker.svg)](https://david-dm.org/lykmapipo/mongoose-faker)
+[![Coverage Status](https://coveralls.io/repos/github/lykmapipo/mongoose-faker/badge.svg?branch=master)](https://coveralls.io/github/lykmapipo/mongoose-faker?branch=master)
+[![GitHub License](https://img.shields.io/github/license/lykmapipo/mongoose-faker)](https://github.com/lykmapipo/mongoose-faker/blob/develop/LICENSE)
+
+[![Commitizen Friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![Code Style](https://badgen.net/badge/code%20style/airbnb/ff5a5f?icon=airbnb)](https://github.com/airbnb/javascript)
+[![npm version](https://img.shields.io/npm/v/@lykmapipo/mongoose-faker)](https://www.npmjs.com/package/@lykmapipo/mongoose-faker)
 
 mongoose plugin to generate fake model data
 
 ## Requirements
 
-- NodeJS v6.5+
+- [NodeJS v13+](https://nodejs.org)
+- [Npm v6.12+](https://www.npmjs.com/)
+- [MongoDB v4+](https://www.mongodb.com/)
+- [Mongoose v5.7+](https://github.com/Automattic/mongoose)
 
 ## Install
 ```sh
-$ npm install --save @lykmapipo/mongoose-faker
+$ npm install --save mongoose @lykmapipo/mongoose-faker
 ```
 
 ## Usage
 
 ```js
-const mongoose = require('mongoose');
-mongoose.plugin(require('mongoose-faker'));
+import mongoose from 'mongoose';
+import mongooseFaker from 'mongoose-faker';
+
+mongoose.plugin(mongooseFaker);
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -120,7 +131,7 @@ It will be nice, if you open an issue first so that we can know what is going on
 ## Licence
 The MIT License (MIT)
 
-Copyright (c) 2015 lykmapipo & Contributors
+Copyright (c) lykmapipo & Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
