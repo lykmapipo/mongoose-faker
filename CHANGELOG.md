@@ -1,3 +1,13 @@
+#### 0.12.0 (2021-09-27)
+
+##### Chores
+
+* **release:**  compile latest source ([6ba2eb2a](https://github.com/lykmapipo/mongoose-faker/commit/6ba2eb2afaa539a98492e0f26a66a013dc95a9b7))
+
+##### Refactors
+
+*  migrate to es6 ([0d47af88](https://github.com/lykmapipo/mongoose-faker/commit/0d47af889bd8c5523e094e903f2c5ad2f12419cc))
+
 #### 0.11.2 (2020-12-29)
 
 ##### Chores
