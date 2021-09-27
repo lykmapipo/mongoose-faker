@@ -17,7 +17,7 @@ mongoose plugin to generate fake model data
 - [NodeJS v13+](https://nodejs.org)
 - [Npm v6.12+](https://www.npmjs.com/)
 - [MongoDB v4+](https://www.mongodb.com/)
-- [Mongoose v5.7+](https://github.com/Automattic/mongoose)
+- [Mongoose v6+](https://github.com/Automattic/mongoose)
 
 ## Install
 ```sh
@@ -28,29 +28,27 @@ $ npm install --save mongoose @lykmapipo/mongoose-faker
 
 ```js
 import mongoose from 'mongoose';
-import mongooseFaker from 'mongoose-faker';
+import mongooseFaker from '@lykmapipo/mongoose-faker';
 
 mongoose.plugin(mongooseFaker);
-const Schema = mongoose.Schema;
+const { Schema } = mongoose;
 
 const UserSchema = new Schema({
   name: {
     type: String,
     fake: {
       generator: 'name',
-      type: 'firstName'
-    }
-  }
-
+      type: 'firstName',
+    },
+  },
 });
 const User = mongoose.model('User', UserSchema);
 
-...
-
 const user = User.fake();
-const users = User.fake(50);
+console.log(user);
 
-...
+const users = User.fake(50);
+console.log(users);
 
 ```
 
