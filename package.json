@@ -67,7 +67,7 @@
     "@commitlint/config-conventional": "^13.2.0",
     "@commitlint/travis-cli": "^13.2.1",
     "@lykmapipo/test-helpers": ">=0.6.23",
-    "acorn": "^8.7.1",
+    "acorn": "^8.8.0",
     "chai": "^4.3.6",
     "commitizen": "^4.2.5",
     "coveralls": "^3.1.1",
@@ -91,7 +91,7 @@
     "nyc": "^15.1.0",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
-    "rollup": "^2.77.0",
+    "rollup": "^2.77.2",
     "shelljs": "^0.8.5"
   },
   "peerDependencies": {},
@@ -102,7 +102,7 @@
     "async": ">=3.2.4",
     "faker": ">=5.5.3",
     "lodash": ">=4.17.21",
-    "mongoose": ">=6.4.6"
+    "mongoose": ">=6.5.0"
   },
   "engines": {
     "node": ">=8.11.1",
